@@ -69,7 +69,7 @@ async def list_my_restaurants(
     return list(result.all())
 
 
-@router.get("/{restaurant_id}", response_model=RestaurantOut)
+@router.get("/{restaurant_id:uuid}", response_model=RestaurantOut)
 async def get_restaurant(
     restaurant_id: uuid.UUID,
     db: AsyncSession = Depends(get_db),
@@ -115,7 +115,7 @@ async def create_restaurant(
     return restaurant
 
 
-@router.patch("/{restaurant_id}", response_model=RestaurantOut)
+@router.patch("/{restaurant_id:uuid}", response_model=RestaurantOut)
 async def update_restaurant(
     restaurant_id: uuid.UUID,
     payload: RestaurantUpdate,
@@ -154,7 +154,7 @@ async def update_restaurant(
     return restaurant
 
 
-@router.delete("/{restaurant_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/{restaurant_id:uuid}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_restaurant(
     restaurant_id: uuid.UUID,
     db: AsyncSession = Depends(get_db),

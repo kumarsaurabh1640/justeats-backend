@@ -186,7 +186,7 @@ async def list_restaurant_orders(
     return list(result.all())
 
 
-@router.get("/{order_id}", response_model=OrderOut)
+@router.get("/{order_id:uuid}", response_model=OrderOut)
 async def get_order(
     order_id: uuid.UUID,
     db: AsyncSession = Depends(get_db),
@@ -227,7 +227,7 @@ async def get_order(
     return order
 
 
-@router.patch("/{order_id}/status", response_model=OrderOut)
+@router.patch("/{order_id:uuid}/status", response_model=OrderOut)
 async def update_order_status(
     order_id: uuid.UUID,
     payload: OrderStatusUpdate,
