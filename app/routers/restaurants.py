@@ -55,6 +55,20 @@ async def list_restaurants(
     return list(result.all())
 
 
+@router.get("/mine", response_model=List[RestaurantOut])
+async def list_my_restaurants(
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(require_role("owner")),
+) -> List[Restaurant]:
+    """List all restaurants owned by the current owner (including inactive)."""
+    result = await db.scalars(
+        select(Restaurant)
+        .where(Restaurant.owner_id == current_user.id)
+        .order_by(Restaurant.name)
+    )
+    return list(result.all())
+
+
 @router.get("/{restaurant_id}", response_model=RestaurantOut)
 async def get_restaurant(
     restaurant_id: uuid.UUID,
